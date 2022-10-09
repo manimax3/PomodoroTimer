@@ -5,6 +5,8 @@ import QtQuick.Controls
 import Backend
 
 Window {
+	id: window
+
 	visible: true
 	width: 420
 	height: 420
@@ -28,6 +30,21 @@ Window {
 			text: pomoManager.state
 			font.pointSize: 28
 			color: "white"
+		}
+
+		Rectangle {
+			Layout.alignment: Qt.AlignCenter
+			width: window.width * 0.8
+			height: 16
+			color: "#555555"
+
+			Rectangle {
+				anchors.left: parent.left
+				height: parent.height
+				width: parent.width * (1. - pomoManager.progress)
+
+				color: "white"
+			}
 		}
 
 		Text {

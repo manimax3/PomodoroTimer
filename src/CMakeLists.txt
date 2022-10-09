@@ -25,3 +25,5 @@ qt_add_qml_module(pomodoro
 add_custom_target(run COMMAND pomodoro WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMENT "run pomodoro" USES_TERMINAL)
 add_dependencies(run pomodoro)
 
+install(TARGETS pomodoro
+		DESTINATION bin)

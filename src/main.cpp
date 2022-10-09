@@ -21,6 +21,8 @@ class PomoManager : public QObject {
 	Q_PROPERTY(QString state READ getPomoState NOTIFY pomoStateChanged)
 	Q_PROPERTY(QString timeRemaining READ fmtTimeRemaining NOTIFY timeRemainingChanged)
 
+	Q_PROPERTY(float progress READ getProgress NOTIFY timeRemainingChanged)
+
 public:
 	enum class PomoState { Pomo, ShortPause, LongPause };
 	Q_ENUM(PomoState);
@@ -151,6 +153,22 @@ private:
 		return QStringLiteral("%1:%2")
 			.arg(timeRemaining / 60, 2, 10, QLatin1Char('0'))
 			.arg(timeRemaining % 60, 2, 10, QLatin1Char('0'));
+	}
+
+	float getProgress() const
+	{
+		const float remaining = static_cast<float>(timeRemaining);
+
+		switch (currentState) {
+		case PomoState::Pomo:
+			return remaining / pomoLength;
+		case PomoState::ShortPause:
+			return remaining / smallPauseLength;
+		case PomoState::LongPause:
+			return remaining / bigPauseLength;
+		}
+
+		return 1.f;
 	}
 
 	int countPomodoros = 4;
